@@ -1,845 +1,1415 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FTC DECODE Season Hub</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-            color: #e0e6ed;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background: rgba(10, 14, 39, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid rgba(0, 162, 255, 0.3);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00a2ff, #00ff94);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #b8c5d6;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: #00a2ff;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #00a2ff, #00ff94);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 100px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 162, 255, 0.1) 0%, transparent 70%);
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .season-badge {
-            display: inline-block;
-            padding: 8px 24px;
-            background: rgba(0, 162, 255, 0.2);
-            border: 2px solid #00a2ff;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 162, 255, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(0, 162, 255, 0.6); }
-        }
-
-        h1 {
-            font-size: 64px;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #ffffff, #00a2ff, #00ff94);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .subtitle {
-            font-size: 24px;
-            color: #8b9db8;
-            margin-bottom: 40px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-size: 16px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #00a2ff, #0080cc);
-            color: white;
-            box-shadow: 0 4px 20px rgba(0, 162, 255, 0.4);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(0, 162, 255, 0.6);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* AI Chat Section */
-        .ai-chat-section {
-            padding: 80px 0;
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .ai-chat-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.9), rgba(15, 23, 41, 0.9));
-            border-radius: 24px;
-            overflow: hidden;
-            border: 2px solid rgba(0, 162, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 162, 255, 0.2);
-        }
-
-        .ai-chat-header {
-            background: linear-gradient(135deg, rgba(0, 162, 255, 0.3), rgba(0, 255, 148, 0.3));
-            padding: 30px;
-            text-align: center;
-            border-bottom: 2px solid rgba(0, 162, 255, 0.3);
-        }
-
-        .ai-chat-header h2 {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .ai-chat-header p {
-            color: #b8c5d6;
-            font-size: 16px;
-        }
-
-        .chat-messages {
-            height: 500px;
-            overflow-y: auto;
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .chat-messages::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .chat-messages::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: rgba(0, 162, 255, 0.5);
-            border-radius: 4px;
-        }
-
-        .message {
-            display: flex;
-            gap: 15px;
-            animation: messageSlide 0.3s ease-out;
-        }
-
-        @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .message.ai .message-avatar {
-            background: linear-gradient(135deg, #00a2ff, #00ff94);
-        }
-
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 16px 20px;
-            border-radius: 16px;
-            line-height: 1.6;
-        }
-
-        .message.ai .message-content {
-            background: rgba(0, 162, 255, 0.15);
-            border: 1px solid rgba(0, 162, 255, 0.3);
-            border-top-left-radius: 4px;
-        }
-
-        .message.user .message-content {
-            background: rgba(102, 126, 234, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-top-right-radius: 4px;
-        }
-
-        .message-time {
-            font-size: 12px;
-            color: #8b9db8;
-            margin-top: 5px;
-        }
-
-        .typing-indicator {
-            display: none;
-            gap: 5px;
-            padding: 20px;
-        }
-
-        .typing-indicator.active {
-            display: flex;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #00a2ff;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes typing {
-            0%, 60%, 100% {
-                transform: translateY(0);
-                opacity: 0.7;
-            }
-            30% {
-                transform: translateY(-10px);
-                opacity: 1;
-            }
-        }
-
-        .chat-input-container {
-            padding: 25px;
-            background: rgba(10, 14, 39, 0.8);
-            border-top: 1px solid rgba(0, 162, 255, 0.2);
-        }
-
-        .suggested-questions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .suggested-question {
-            padding: 8px 16px;
-            background: rgba(0, 162, 255, 0.1);
-            border: 1px solid rgba(0, 162, 255, 0.3);
-            border-radius: 20px;
-            font-size: 13px;
-            color: #00a2ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .suggested-question:hover {
-            background: rgba(0, 162, 255, 0.2);
-            border-color: #00a2ff;
-            transform: translateY(-2px);
-        }
-
-        .chat-input-wrapper {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .chat-input {
-            flex: 1;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(0, 162, 255, 0.3);
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .chat-input:focus {
-            outline: none;
-            border-color: #00a2ff;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 20px rgba(0, 162, 255, 0.2);
-        }
-
-        .chat-input::placeholder {
-            color: #6b7c93;
-        }
-
-        .send-button {
-            padding: 16px 24px;
-            background: linear-gradient(135deg, #00a2ff, #0080cc);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
-        }
-
-        .send-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 162, 255, 0.5);
-        }
-
-        .send-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Game Overview */
-        .game-overview {
-            padding: 80px 0;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 60px;
-            background: linear-gradient(135deg, #ffffff, #00a2ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .game-card {
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(15, 23, 41, 0.8));
-            border-radius: 20px;
-            padding: 50px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .game-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0, 162, 255, 0.5);
-            box-shadow: 0 10px 40px rgba(0, 162, 255, 0.2);
-        }
-
-        .game-title {
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #00ff94;
-        }
-
-        .game-description {
-            font-size: 18px;
-            color: #b8c5d6;
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .feature-card {
-            background: linear-gradient(135deg, rgba(0, 162, 255, 0.1), rgba(0, 255, 148, 0.1));
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: #00a2ff;
-            box-shadow: 0 8px 30px rgba(0, 162, 255, 0.3);
-        }
-
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .feature-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .feature-text {
-            color: #8b9db8;
-            font-size: 15px;
-        }
-
-        /* Timeline */
-        .timeline {
-            padding: 80px 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .timeline-items {
-            display: grid;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .timeline-item {
-            display: grid;
-            grid-template-columns: 150px 1fr;
-            gap: 30px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.6), rgba(15, 23, 41, 0.6));
-            border-radius: 16px;
-            border-left: 4px solid #00a2ff;
-            transition: all 0.3s ease;
-        }
-
-        .timeline-item:hover {
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(15, 23, 41, 0.8));
-            border-left-color: #00ff94;
-        }
-
-        .timeline-date {
-            font-size: 18px;
-            font-weight: 700;
-            color: #00a2ff;
-        }
-
-        .timeline-content h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-            color: #ffffff;
-        }
-
-        .timeline-content p {
-            color: #8b9db8;
-        }
-
-        /* Awards */
-        .awards {
-            padding: 80px 0;
-        }
-
-        .awards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .award-card {
-            background: linear-gradient(135deg, rgba(0, 162, 255, 0.15), rgba(0, 255, 148, 0.15));
-            border-radius: 16px;
-            padding: 35px;
-            border: 2px solid rgba(0, 162, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .award-card:hover {
-            transform: scale(1.05);
-            border-color: #00ff94;
-            box-shadow: 0 10px 40px rgba(0, 255, 148, 0.3);
-        }
-
-        .award-name {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #00ff94;
-        }
-
-        .award-description {
-            color: #b8c5d6;
-            font-size: 15px;
-        }
-
-        /* Resources */
-        .resources {
-            padding: 80px 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .resource-links {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .resource-link {
-            display: block;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(26, 31, 58, 0.8), rgba(15, 23, 41, 0.8));
-            border-radius: 12px;
-            text-decoration: none;
-            color: #ffffff;
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .resource-link:hover {
-            border-color: #00a2ff;
-            background: linear-gradient(135deg, rgba(0, 162, 255, 0.2), rgba(0, 255, 148, 0.2));
-            transform: translateX(5px);
-        }
-
-        .resource-link-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .resource-link-desc {
-            font-size: 14px;
-            color: #8b9db8;
-        }
-
-        /* Footer */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            background: rgba(10, 14, 39, 0.95);
-            border-top: 1px solid rgba(0, 162, 255, 0.2);
-        }
-
-        footer p {
-            color: #8b9db8;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 { font-size: 42px; }
-            .subtitle { font-size: 18px; }
-            .section-title { font-size: 32px; }
-            .nav-links { display: none; }
-            .timeline-item { grid-template-columns: 1fr; }
-            .message-content { max-width: 85%; }
-            .chat-messages { height: 400px; }
-            .suggested-questions { font-size: 12px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FindYourNorth — Pricing Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f4f3f0;
+  --surface: #ffffff;
+  --surface2: #f0eeeb;
+  --border: #e2dfd8;
+  --border-strong: #c8c4bc;
+  --text: #1d1c1c;
+  --text-muted: #7a7875;
+  --text-faint: #b0ada6;
+  --accent: #1d1c1c;
+  --accent-inv: #ffffff;
+  --partner-bg: #f0faf5;
+  --partner-text: #0b5c38;
+  --partner-border: #a8dfc0;
+  --strike: #c8c4bc;
+  --green: #1a7a46;
+  --yellow: #8a6a00;
+  --red: #8a2a1a;
+  --green-bg: #edf7f2;
+  --yellow-bg: #fdf8ec;
+  --red-bg: #fdf0ee;
+  --r: 12px;
+  --rs: 8px;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --transition: 0.18s ease;
+}
+[data-theme="dark"] {
+  --bg: #1d1c1c;
+  --surface: #272625;
+  --surface2: #2f2e2c;
+  --border: #3a3836;
+  --border-strong: #504e4b;
+  --text: #e5e5e5;
+  --text-muted: #9a9895;
+  --text-faint: #6a6865;
+  --accent: #e5e5e5;
+  --accent-inv: #1d1c1c;
+  --partner-bg: #0d2e1e;
+  --partner-text: #6ddba8;
+  --partner-border: #1a5c38;
+  --strike: #5a5856;
+  --green: #6ddba8;
+  --yellow: #e8c96a;
+  --red: #e87a6a;
+  --green-bg: #0d2e1e;
+  --yellow-bg: #2e2500;
+  --red-bg: #2e0e0a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; padding: 48px 24px 80px; transition: background var(--transition), color var(--transition); }
+.page { max-width: 720px; margin: 0 auto; }
+ 
+/* HEADER */
+header { margin-bottom: 40px; }
+.header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.brand-small { font-size: 10px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+h1 { font-size: 26px; font-weight: 300; letter-spacing: -0.02em; color: var(--text); line-height: 1.2; }
+h1 strong { font-weight: 500; }
+.header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; margin-top: 4px; }
+ 
+/* THEME TOGGLE */
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition);
+  flex-shrink: 0;
+}
+.icon-btn:hover { border-color: var(--border-strong); color: var(--text); }
+.icon-btn svg { width: 15px; height: 15px; }
+ 
+/* CONTROLS ROW */
+.controls-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.tabs { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: 100px; padding: 3px; gap: 2px; }
+.tab { font-family: var(--sans); font-size: 13px; font-weight: 500; padding: 6px 18px; border-radius: 100px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.tab.active { background: var(--accent); color: var(--accent-inv); }
+.tab:hover:not(.active) { color: var(--text); }
+.right-controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+ 
+/* PARTNER BTN */
+.partner-btn { font-family: var(--sans); display: flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.partner-btn:hover { border-color: var(--border-strong); color: var(--text); }
+.partner-btn.on { background: var(--partner-bg); border-color: var(--partner-border); color: var(--partner-text); }
+.p-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border-strong); transition: background var(--transition); flex-shrink: 0; }
+.partner-btn.on .p-dot { background: #2db870; }
+ 
+/* CALC BTN */
+.calc-btn { font-family: var(--sans); display: flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.calc-btn:hover { border-color: var(--border-strong); color: var(--text); }
+.calc-btn.active { background: var(--accent); border-color: var(--accent); color: var(--accent-inv); }
+ 
+/* TOGGLE BTN (reusable) */
+.toggle-btn { font-family: var(--sans); display: flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 13px; font-weight: 500; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.toggle-btn:hover { border-color: var(--border-strong); color: var(--text); }
+.toggle-btn.on { background: var(--accent); border-color: var(--accent); color: var(--accent-inv); }
+ 
+/* PARTNER NOTICE */
+.partner-notice { display: none; background: var(--partner-bg); border: 1px solid var(--partner-border); border-radius: var(--rs); padding: 11px 15px; font-size: 13px; color: var(--partner-text); line-height: 1.55; margin-bottom: 18px; }
+.partner-notice.show { display: block; }
+ 
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+ 
+/* FILTER BAR */
+.filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.filter-chip { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+.filter-chip:hover { color: var(--text); border-color: var(--border-strong); }
+.filter-chip.active { background: var(--accent); color: var(--accent-inv); border-color: var(--accent); }
+.filter-section { margin-bottom: 10px; }
+.filter-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 8px; }
+ 
+/* CARD */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 22px; margin-bottom: 14px; transition: background var(--transition), border-color var(--transition); }
+.card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 18px; }
+ 
+/* SLIDER ROW */
+.slider-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.slider-row:last-child { margin-bottom: 0; }
+.slider-label { font-size: 13px; color: var(--text-muted); min-width: 165px; flex-shrink: 0; }
+input[type=range] { -webkit-appearance: none; appearance: none; flex: 1; height: 2px; background: var(--border); border-radius: 2px; outline: none; cursor: pointer; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); cursor: pointer; transition: transform 0.12s; }
+input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.25); }
+input[type=range]::-moz-range-thumb { width: 15px; height: 15px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); cursor: pointer; }
+.slider-val { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text); min-width: 52px; text-align: right; }
+ 
+/* MARGIN HEALTH BAR */
+.margin-slider-wrap { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+.margin-health-bar { height: 3px; border-radius: 2px; background: linear-gradient(to right, #e87a6a 0%, #e87a6a 40%, #e8c96a 40%, #e8c96a 55%, #2db870 55%, #2db870 100%); position: relative; pointer-events: none; }
+.margin-health-indicator { position: absolute; top: -4px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--bg); transition: left 0.1s, background 0.18s; }
+.margin-health-note { font-size: 10px; transition: color 0.18s; }
+ 
+/* CUSTOM INPUT */
+.custom-row { display: flex; align-items: center; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.custom-row label { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+.custom-input { font-family: var(--mono); font-size: 13px; width: 90px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface2); color: var(--text); outline: none; transition: border-color var(--transition); }
+.custom-input:focus { border-color: var(--border-strong); }
+.custom-apply { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: var(--rs); border: 1px solid var(--border); background: var(--accent); color: var(--accent-inv); cursor: pointer; transition: all var(--transition); }
+.custom-apply:hover { opacity: 0.85; }
+.custom-badge { font-size: 10px; padding: 2px 8px; border-radius: 100px; background: var(--surface2); color: var(--text-faint); border: 1px solid var(--border); margin-left: auto; }
+ 
+/* DIVIDER */
+.divider { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
+ 
+/* METRICS */
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(115px, 1fr)); gap: 8px; margin-bottom: 14px; }
+.metric { background: var(--surface2); border-radius: var(--rs); padding: 13px 14px; transition: background var(--transition); }
+.metric-label { font-size: 10px; color: var(--text-faint); margin-bottom: 5px; letter-spacing: 0.02em; }
+.metric-value { font-family: var(--mono); font-size: 19px; font-weight: 500; color: var(--text); line-height: 1; }
+.metric-sub { font-size: 10px; color: var(--text-faint); margin-top: 4px; }
+.was { font-family: var(--mono); font-size: 12px; color: var(--strike); text-decoration: line-through; margin-right: 4px; }
+ 
+/* BUNDLES */
+.bundles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.bundle { background: var(--surface2); border-radius: var(--rs); padding: 13px 14px; }
+.bundle-name { font-size: 10px; color: var(--text-faint); margin-bottom: 5px; letter-spacing: 0.02em; }
+.bundle-price { font-family: var(--mono); font-size: 17px; font-weight: 500; color: var(--text); }
+.bundle-off { font-size: 10px; color: var(--text-faint); margin-top: 3px; }
+ 
+/* SIZES */
+.sizes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.size-item { background: var(--surface2); border-radius: var(--rs); padding: 13px 14px; }
+.size-name { font-size: 10px; color: var(--text-faint); margin-bottom: 5px; }
+.size-price { font-family: var(--mono); font-size: 17px; font-weight: 500; color: var(--text); }
+.size-note { font-size: 10px; color: var(--text-faint); margin-top: 3px; }
+ 
+/* PRICING TABLE */
+.pricing-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pricing-table th { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 10px 10px 0; text-align: left; border-bottom: 1px solid var(--border); }
+.pricing-table td { padding: 10px 10px 10px 0; border-bottom: 1px solid var(--border); color: var(--text-muted); font-size: 13px; }
+.pricing-table td:first-child { color: var(--text); font-weight: 500; }
+.pricing-table td.mono { font-family: var(--mono); color: var(--text); }
+.pricing-table tr:last-child td { border-bottom: none; }
+ 
+/* TIP */
+.tip { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+ 
+/* ── REVENUE GOAL PANEL ───────────────────────────────────────── */
+.goal-card { background: var(--surface2); border: 1px dashed var(--border-strong); border-radius: var(--r); padding: 18px; margin-bottom: 14px; }
+.goal-card.show { display: block; }
+.goal-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.goal-label { font-size: 13px; color: var(--text-muted); white-space: nowrap; }
+.goal-input { font-family: var(--mono); font-size: 15px; width: 110px; padding: 7px 12px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface); color: var(--text); outline: none; transition: border-color var(--transition); }
+.goal-input:focus { border-color: var(--border-strong); }
+.goal-result { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); padding: 10px 0 0; }
+.goal-result-sub { font-size: 12px; color: var(--text-faint); margin-top: 3px; }
+ 
+/* ── EVENT MODE / MARKET TABLE ────────────────────────────────── */
+.event-table-wrap { display: none; }
+.event-table-wrap.show { display: block; }
+.event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; }
+.event-item { background: var(--surface2); border-radius: var(--rs); padding: 14px; text-align: center; }
+.event-item-label { font-size: 10px; color: var(--text-faint); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
+.event-item-price { font-family: var(--mono); font-size: 22px; font-weight: 500; color: var(--text); }
+.event-item-note { font-size: 10px; color: var(--text-faint); margin-top: 4px; }
+.event-header { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.55; }
+ 
+/* ── SHIPPING ─────────────────────────────────────────────────── */
+.shipping-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.shipping-label { font-size: 12px; color: var(--text-muted); flex-shrink: 0; }
+.shipping-input { font-family: var(--mono); font-size: 13px; width: 80px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface2); color: var(--text); outline: none; transition: border-color var(--transition); }
+.shipping-input:focus { border-color: var(--border-strong); }
+.shipping-note { font-size: 11px; color: var(--text-faint); }
+ 
+/* ── FEES TOGGLE ──────────────────────────────────────────────── */
+.fees-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fee-select { font-family: var(--sans); font-size: 12px; padding: 5px 10px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface2); color: var(--text); cursor: pointer; outline: none; }
+.fee-custom-input { font-family: var(--mono); font-size: 13px; width: 70px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface2); color: var(--text); outline: none; display: none; }
+.fee-note { font-size: 11px; color: var(--text-faint); }
+ 
+/* ── POD COMPARISON ───────────────────────────────────────────── */
+.pod-panel { display: none; }
+.pod-panel.show { display: block; }
+.pod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.pod-item { background: var(--surface2); border-radius: var(--rs); padding: 14px; }
+.pod-provider { font-size: 10px; color: var(--text-faint); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.07em; }
+.pod-price { font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--text); }
+.pod-margin { font-size: 11px; margin-top: 3px; }
+.pod-margin.good { color: var(--green); }
+.pod-margin.ok { color: var(--yellow); }
+.pod-margin.bad { color: var(--red); }
+.pod-crossover { font-size: 12px; color: var(--text-muted); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); line-height: 1.6; }
+.pod-crossover strong { color: var(--text); }
+ 
+/* ── SCENARIOS ────────────────────────────────────────────────── */
+.scenarios-panel { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 18px; margin-bottom: 14px; }
+.scenarios-panel.show { display: block; }
+.scenarios-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.scenarios-title { font-size: 12px; font-weight: 500; color: var(--text-muted); }
+.scenario-save-row { display: flex; gap: 8px; margin-bottom: 12px; }
+.scenario-name-input { font-family: var(--sans); font-size: 13px; flex: 1; padding: 7px 12px; border: 1px solid var(--border); border-radius: var(--rs); background: var(--surface2); color: var(--text); outline: none; }
+.scenario-name-input:focus { border-color: var(--border-strong); }
+.scenario-save-btn { font-family: var(--sans); font-size: 12px; font-weight: 500; padding: 7px 14px; border-radius: var(--rs); border: 1px solid var(--border); background: var(--accent); color: var(--accent-inv); cursor: pointer; white-space: nowrap; }
+.scenario-list { display: flex; flex-direction: column; gap: 6px; }
+.scenario-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface2); border-radius: var(--rs); }
+.scenario-item-name { font-size: 13px; font-weight: 500; flex: 1; color: var(--text); }
+.scenario-item-meta { font-size: 11px; color: var(--text-faint); }
+.scenario-item-btn { font-family: var(--sans); font-size: 11px; padding: 4px 10px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); cursor: pointer; }
+.scenario-item-btn:hover { color: var(--text); border-color: var(--border-strong); }
+.scenario-item-del { font-family: var(--sans); font-size: 11px; padding: 4px 8px; border-radius: 100px; border: 1px solid transparent; background: transparent; color: var(--text-faint); cursor: pointer; }
+.scenario-item-del:hover { color: var(--red); }
+.scenarios-empty { font-size: 12px; color: var(--text-faint); text-align: center; padding: 12px; }
+ 
+/* ── EXPORT BTN ───────────────────────────────────────────────── */
+.export-btn { font-family: var(--sans); display: flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 12px; font-weight: 500; cursor: pointer; transition: all var(--transition); }
+.export-btn:hover { border-color: var(--border-strong); color: var(--text); }
+ 
+/* ── SECONDARY CONTROLS ROWS ──────────────────────────────────── */
+.secondary-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+ 
+/* DRAGGABLE CALCULATOR */
+.calc-widget {
+  display: none;
+  position: fixed;
+  top: 80px; right: 30px;
+  width: 260px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+  z-index: 1000;
+  user-select: none;
+  transition: background var(--transition), border-color var(--transition);
+}
+.calc-widget.show { display: block; }
+.calc-drag { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 10px; cursor: grab; border-bottom: 1px solid var(--border); }
+.calc-drag:active { cursor: grabbing; }
+.calc-title { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+.calc-close { font-family: var(--sans); background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 16px; line-height: 1; padding: 0; transition: color var(--transition); }
+.calc-close:hover { color: var(--text); }
+.calc-display { font-family: var(--mono); font-size: 22px; font-weight: 500; color: var(--text); text-align: right; padding: 14px 14px 10px; background: var(--surface2); min-height: 52px; word-break: break-all; line-height: 1.2; border-bottom: 1px solid var(--border); }
+.calc-expr { font-size: 11px; color: var(--text-faint); text-align: right; padding: 4px 14px 0; min-height: 18px; font-family: var(--mono); }
+.calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); padding: 0; }
+.cb {
+  font-family: var(--mono); font-size: 14px; font-weight: 500;
+  padding: 14px 0; border: none; background: var(--surface);
+  color: var(--text); cursor: pointer; transition: background var(--transition);
+  text-align: center;
+}
+.cb:hover { background: var(--surface2); }
+.cb.op { color: var(--text-muted); }
+.cb.eq { background: var(--accent); color: var(--accent-inv); }
+.cb.eq:hover { opacity: 0.88; background: var(--accent); }
+.cb.wide { grid-column: span 2; }
+ 
+footer { margin-top: 48px; font-size: 11px; color: var(--text-faint); text-align: center; letter-spacing: 0.04em; }
+</style>
 </head>
 <body>
-    <header>
-        <nav class="container">
-            <div class="logo">FTC DECODE™</div>
-            <ul class="nav-links">
-                <li><a href="#ai-assistant">AI Assistant</a></li>
-                <li><a href="#overview">Overview</a></li>
-                <li><a href="#timeline">Timeline</a></li>
-                <li><a href="#awards">Awards</a></li>
-                <li><a href="#resources">Resources</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content container">
-            <div class="season-badge">2025-2026 SEASON • LIVE NOW</div>
-            <h1>DECODE™</h1>
-            <p class="subtitle">Presented by RTX • Unlock Mysteries, Uncover the Future</p>
-            <div class="cta-buttons">
-                <a href="#ai-assistant" class="btn btn-primary">Ask AI Assistant</a>
-                <a href="https://www.firstinspires.org/programs/ftc" class="btn btn-secondary">Join FTC</a>
-            </div>
+<div class="page">
+ 
+<header>
+  <div class="brand-small">Pricing Calculator</div>
+  <div class="header-top">
+    <div>
+      <h1><strong>FindYourNorth</strong> Apparel &amp; Stickers</h1>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
+        <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+ 
+<div class="controls-row">
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('stickers',this)">Stickers</button>
+    <button class="tab" onclick="switchTab('shirts',this)">Shirts</button>
+  </div>
+  <div class="right-controls">
+    <button class="partner-btn" id="partner-btn" onclick="togglePartner()">
+      <span class="p-dot" id="p-dot"></span>
+      <span id="p-label">Partnership</span>
+    </button>
+    <button class="calc-btn" id="calc-btn" onclick="toggleCalc()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+      Calculator
+    </button>
+  </div>
+</div>
+ 
+<div class="partner-notice" id="partner-notice">
+  Partnership discount active — blank costs reduced 15%, print costs reduced 10%. Margin preserved; you pay less to produce.
+</div>
+ 
+<!-- ===== STICKERS PANEL ===== -->
+<div class="panel active" id="panel-stickers">
+ 
+  <!-- Secondary Controls -->
+  <div class="secondary-controls">
+    <button class="toggle-btn" id="s-event-btn" onclick="toggleEventMode('s')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Event Mode
+    </button>
+    <button class="toggle-btn" id="s-goal-btn" onclick="toggleGoalMode('s')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      Revenue Goal
+    </button>
+    <button class="toggle-btn" id="s-scenarios-btn" onclick="toggleScenarios('s')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Scenarios
+    </button>
+    <button class="export-btn" onclick="exportCSV('s')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+ 
+  <!-- Revenue Goal -->
+  <div class="goal-card" id="s-goal-card" style="display:none;">
+    <div class="card-label" style="margin-bottom:12px;">Revenue goal — reverse calculator</div>
+    <div class="goal-row">
+      <span class="goal-label">I want to make</span>
+      <input type="number" class="goal-input" id="s-goal-input" placeholder="500" min="0" step="10" oninput="calcGoal('s')">
+      <span class="goal-label">this weekend</span>
+    </div>
+    <div class="goal-result" id="s-goal-result">—</div>
+    <div class="goal-result-sub" id="s-goal-sub">Enter a dollar amount above</div>
+  </div>
+ 
+  <!-- Scenarios -->
+  <div class="scenarios-panel" id="s-scenarios-panel">
+    <div class="scenarios-header">
+      <span class="scenarios-title">Saved scenarios</span>
+    </div>
+    <div class="scenario-save-row">
+      <input type="text" class="scenario-name-input" id="s-scenario-name" placeholder='e.g. "Market run — May"'>
+      <button class="scenario-save-btn" onclick="saveScenario('s')">Save current</button>
+    </div>
+    <div class="scenario-list" id="s-scenario-list"></div>
+  </div>
+ 
+  <!-- Event Mode -->
+  <div class="event-table-wrap" id="s-event-wrap">
+    <div class="card">
+      <div class="card-label">Market table — in-person pricing</div>
+      <div class="event-header" id="s-event-header">Clean round numbers optimized for fast, frictionless sales at a market table. No change-making stress.</div>
+      <div class="event-grid" id="s-event-grid"></div>
+    </div>
+  </div>
+ 
+  <div class="filter-section">
+    <div class="filter-label">Series</div>
+    <div class="filter-bar" id="s-series-bar">
+      <button class="filter-chip active" data-val="all" onclick="setSFilter('series',this)">All series</button>
+      <button class="filter-chip" data-val="good-day" onclick="setSFilter('series',this)">Good Day</button>
+      <button class="filter-chip" data-val="faith" onclick="setSFilter('series',this)">Faith</button>
+      <button class="filter-chip" data-val="street" onclick="setSFilter('series',this)">Street Culture</button>
+      <button class="filter-chip" data-val="furever" onclick="setSFilter('series',this)">Furever</button>
+      <button class="filter-chip" data-val="roots" onclick="setSFilter('series',this)">Roots</button>
+      <button class="filter-chip" data-val="nostalgia" onclick="setSFilter('series',this)">Nostalgia</button>
+      <button class="filter-chip" data-val="local" onclick="setSFilter('series',this)">Local Love</button>
+      <button class="filter-chip" data-val="grind" onclick="setSFilter('series',this)">Mind & Grind</button>
+    </div>
+    <div class="filter-label" style="margin-top:12px;">Size</div>
+    <div class="filter-bar" id="s-size-bar">
+      <button class="filter-chip active" data-val="med" onclick="setSFilter('size',this)">Medium (3")</button>
+      <button class="filter-chip" data-val="small" onclick="setSFilter('size',this)">Small (2")</button>
+      <button class="filter-chip" data-val="large" onclick="setSFilter('size',this)">Large (4")</button>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-label">Cost inputs</div>
+    <div class="slider-row">
+      <span class="slider-label">Cost per sticker</span>
+      <input type="range" min="10" max="300" value="50" step="5" id="s-cost" oninput="calcStickers()">
+      <span class="slider-val" id="s-cost-out">$0.50</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-label">Batch quantity</span>
+      <input type="range" min="10" max="500" value="100" step="5" id="s-qty" oninput="calcStickers()">
+      <span class="slider-val" id="s-qty-out">100</span>
+    </div>
+    <div class="slider-row" style="margin-bottom:8px;">
+      <span class="slider-label">Target margin</span>
+      <div class="margin-slider-wrap">
+        <input type="range" min="10" max="80" value="55" step="5" id="s-margin" oninput="calcStickers()">
+        <div class="margin-health-bar">
+          <div class="margin-health-indicator" id="s-margin-ind" style="left:0;background:#e87a6a;"></div>
         </div>
-    </section>
-
-    <section id="ai-assistant" class="ai-chat-section">
-        <div class="container">
-            <div class="ai-chat-container">
-                <div class="ai-chat-header">
-                    <h2>🤖 FTC AI Assistant</h2>
-                    <p>Ask me anything about FIRST Tech Challenge and the DECODE season!</p>
-                </div>
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message ai">
-                        <div class="message-avatar">🤖</div>
-                        <div>
-                            <div class="message-content">
-                                Hello! I'm your FTC AI Assistant. I can help you with questions about the DECODE season, robot design, competition rules, awards, programming, team management, and anything else related to FIRST Tech Challenge. What would you like to know?
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="typing-indicator" id="typingIndicator">
-                    <div class="message-avatar">🤖</div>
-                    <div style="display: flex; gap: 5px; align-items: center; padding: 10px 15px; background: rgba(0, 162, 255, 0.15); border-radius: 16px;">
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                        <div class="typing-dot"></div>
-                    </div>
-                </div>
-                <div class="chat-input-container">
-                    <div class="suggested-questions">
-                        <button class="suggested-question" onclick="askQuestion('What is the DECODE game about?')">What is DECODE about?</button>
-                        <button class="suggested-question" onclick="askQuestion('What are the key dates for this season?')">Key season dates?</button>
-                        <button class="suggested-question" onclick="askQuestion('How do I program an FTC robot?')">Robot programming tips?</button>
-                        <button class="suggested-question" onclick="askQuestion('What awards can my team win?')">Available awards?</button>
-                    </div>
-                    <div class="chat-input-wrapper">
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask about FTC, DECODE, rules, strategy, or anything else...">
-                        <button class="send-button" id="sendButton" onclick="sendMessage()">Send</button>
-                    </div>
-                </div>
-            </div>
+        <div class="margin-health-note" id="s-margin-note" style="color:var(--red);">Below industry standard</div>
+      </div>
+      <span class="slider-val" id="s-margin-out">55%</span>
+    </div>
+    <!-- Shipping -->
+    <div class="shipping-row">
+      <span class="shipping-label">Shipping cost (online)</span>
+      <input type="number" class="shipping-input" id="s-shipping" placeholder="0.00" min="0" step="0.25" oninput="calcStickers()">
+      <span class="shipping-note" id="s-shipping-note">Adds to cost, reduces effective margin</span>
+    </div>
+    <!-- Platform fees -->
+    <div class="fees-section">
+      <span class="shipping-label">Platform fee</span>
+      <select class="fee-select" id="s-fee-select" onchange="onFeeChange('s')">
+        <option value="0">None</option>
+        <option value="0.065">Etsy (~6.5%)</option>
+        <option value="0.05">Shopify (~5%)</option>
+        <option value="custom">Custom %</option>
+      </select>
+      <input type="number" class="fee-custom-input" id="s-fee-custom" placeholder="%" min="0" max="50" step="0.1" oninput="calcStickers()">
+      <span class="fee-note" id="s-fee-note"></span>
+    </div>
+    <div class="custom-row">
+      <label>Custom cost ($)</label>
+      <input type="number" class="custom-input" id="s-custom-val" placeholder="0.00" step="0.01" min="0">
+      <button class="custom-apply" onclick="applyCustom('s')">Apply</button>
+      <span class="custom-badge">Custom</span>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-label">Results — <span id="s-context-label">Medium sticker · All series</span></div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Cost / sticker</div><div class="metric-value" id="s-cost-eff">—</div><div class="metric-sub" id="s-cost-eff-sub">your cost</div></div>
+      <div class="metric"><div class="metric-label">Sell price</div><div class="metric-value" id="s-sell">—</div><div class="metric-sub">per sticker</div></div>
+      <div class="metric"><div class="metric-label">Profit / sticker</div><div class="metric-value" id="s-profit">—</div><div class="metric-sub" id="s-profit-sub">after cost</div></div>
+      <div class="metric"><div class="metric-label">Total profit</div><div class="metric-value" id="s-tprofit">—</div><div class="metric-sub" id="s-tprofit-sub">full batch</div></div>
+    </div>
+ 
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:12px;">Series pricing breakdown</div>
+    <table class="pricing-table" id="s-series-table"></table>
+ 
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:12px;">Bundle pricing</div>
+    <div class="bundles-grid" id="s-bundles"></div>
+ 
+    <div class="divider"></div>
+    <div class="tip" id="s-tip"></div>
+  </div>
+ 
+</div>
+ 
+<!-- ===== SHIRTS PANEL ===== -->
+<div class="panel" id="panel-shirts">
+ 
+  <!-- Secondary Controls -->
+  <div class="secondary-controls">
+    <button class="toggle-btn" id="t-event-btn" onclick="toggleEventMode('t')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Event Mode
+    </button>
+    <button class="toggle-btn" id="t-goal-btn" onclick="toggleGoalMode('t')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+      Revenue Goal
+    </button>
+    <button class="toggle-btn" id="t-pod-btn" onclick="togglePOD()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      Print-on-Demand
+    </button>
+    <button class="toggle-btn" id="t-scenarios-btn" onclick="toggleScenarios('t')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Scenarios
+    </button>
+    <button class="export-btn" onclick="exportCSV('t')">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+ 
+  <!-- Revenue Goal -->
+  <div class="goal-card" id="t-goal-card" style="display:none;">
+    <div class="card-label" style="margin-bottom:12px;">Revenue goal — reverse calculator</div>
+    <div class="goal-row">
+      <span class="goal-label">I want to make</span>
+      <input type="number" class="goal-input" id="t-goal-input" placeholder="500" min="0" step="10" oninput="calcGoal('t')">
+      <span class="goal-label">this weekend</span>
+    </div>
+    <div class="goal-result" id="t-goal-result">—</div>
+    <div class="goal-result-sub" id="t-goal-sub">Enter a dollar amount above</div>
+  </div>
+ 
+  <!-- Scenarios -->
+  <div class="scenarios-panel" id="t-scenarios-panel">
+    <div class="scenarios-header">
+      <span class="scenarios-title">Saved scenarios</span>
+    </div>
+    <div class="scenario-save-row">
+      <input type="text" class="scenario-name-input" id="t-scenario-name" placeholder='e.g. "Market run — May"'>
+      <button class="scenario-save-btn" onclick="saveScenario('t')">Save current</button>
+    </div>
+    <div class="scenario-list" id="t-scenario-list"></div>
+  </div>
+ 
+  <!-- Event Mode -->
+  <div class="event-table-wrap" id="t-event-wrap">
+    <div class="card">
+      <div class="card-label">Market table — in-person pricing</div>
+      <div class="event-header" id="t-event-header">Clean round numbers for fast, no-calculator selling.</div>
+      <div class="event-grid" id="t-event-grid"></div>
+    </div>
+  </div>
+ 
+  <!-- POD Comparison -->
+  <div class="pod-panel" id="t-pod-panel">
+    <div class="card">
+      <div class="card-label">Print-on-demand comparison</div>
+      <div class="pod-grid" id="t-pod-grid"></div>
+      <div class="pod-crossover" id="t-pod-crossover"></div>
+    </div>
+  </div>
+ 
+  <div class="filter-section">
+    <div class="filter-label">Series</div>
+    <div class="filter-bar" id="t-series-bar">
+      <button class="filter-chip active" data-val="all" onclick="setTFilter('series',this)">All series</button>
+      <button class="filter-chip" data-val="good-day" onclick="setTFilter('series',this)">Good Day</button>
+      <button class="filter-chip" data-val="faith" onclick="setTFilter('series',this)">Faith</button>
+      <button class="filter-chip" data-val="street" onclick="setTFilter('series',this)">Street Culture</button>
+      <button class="filter-chip" data-val="furever" onclick="setTFilter('series',this)">Furever</button>
+      <button class="filter-chip" data-val="roots" onclick="setTFilter('series',this)">Roots</button>
+      <button class="filter-chip" data-val="nostalgia" onclick="setTFilter('series',this)">Nostalgia</button>
+      <button class="filter-chip" data-val="local" onclick="setTFilter('series',this)">Local Love</button>
+      <button class="filter-chip" data-val="grind" onclick="setTFilter('series',this)">Mind & Grind</button>
+    </div>
+    <div class="filter-label" style="margin-top:12px;">Size</div>
+    <div class="filter-bar" id="t-size-bar">
+      <button class="filter-chip active" data-val="all" onclick="setTFilter('size',this)">All sizes</button>
+      <button class="filter-chip" data-val="xs-l" onclick="setTFilter('size',this)">XS – L</button>
+      <button class="filter-chip" data-val="xl" onclick="setTFilter('size',this)">XL</button>
+      <button class="filter-chip" data-val="2xl" onclick="setTFilter('size',this)">2XL</button>
+      <button class="filter-chip" data-val="3xl" onclick="setTFilter('size',this)">3XL+</button>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-label">Cost inputs</div>
+    <div class="slider-row">
+      <span class="slider-label">Blank shirt cost</span>
+      <input type="range" min="10" max="300" value="70" step="5" id="t-blank" oninput="calcShirts()">
+      <span class="slider-val" id="t-blank-out">$7.00</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-label">Print / design cost</span>
+      <input type="range" min="10" max="200" value="40" step="5" id="t-print" oninput="calcShirts()">
+      <span class="slider-val" id="t-print-out">$4.00</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-label">Batch quantity</span>
+      <input type="range" min="10" max="200" value="25" step="5" id="t-qty" oninput="calcShirts()">
+      <span class="slider-val" id="t-qty-out">25</span>
+    </div>
+    <div class="slider-row" style="margin-bottom:8px;">
+      <span class="slider-label">Target margin</span>
+      <div class="margin-slider-wrap">
+        <input type="range" min="10" max="75" value="55" step="5" id="t-margin" oninput="calcShirts()">
+        <div class="margin-health-bar">
+          <div class="margin-health-indicator" id="t-margin-ind" style="left:0;background:#e87a6a;"></div>
         </div>
-    </section>
-
-    <section id="overview" class="game-overview container">
-        <h2 class="section-title">About the Season</h2>
-        
-        <div class="game-card">
-            <h3 class="game-title">DECODE™ presented by RTX</h3>
-            <p class="game-description">
-                Starting September 6, 2025, FIRST Tech Challenge teams investigate the power of the world's artifacts and unlock mysteries in an exciting new challenge. Teams program classroom-scale robots to follow autonomous commands before student drivers take control in thrilling two-on-two matches.
-            </p>
-            <p class="game-description">
-                On and off the field, students develop STEM skills, engage in community outreach, practice engineering innovation, and build confidence to help them succeed in the future.
-            </p>
-        </div>
-
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3 class="feature-title">Robot Design</h3>
-                <p class="feature-text">Build and program classroom-scale robots using creative solutions and innovative engineering</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3 class="feature-title">Competition</h3>
-                <p class="feature-text">Compete in two-on-two alliance matches with autonomous and driver-controlled periods</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3 class="feature-title">Awards</h3>
-                <p class="feature-text">Earn recognition for robot innovation, community outreach, and teamwork excellence</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h3 class="feature-title">Teamwork</h3>
-                <p class="feature-text">Collaborate with teammates and form alliances with other teams during competitions</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💡</div>
-                <h3 class="feature-title">STEM Skills</h3>
-                <p class="feature-text">Develop programming, engineering, problem-solving, and critical thinking abilities</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3 class="feature-title">Community</h3>
-                <p class="feature-text">Engage in outreach and connect with local STEM communities and mentors</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="timeline" class="timeline">
-        <div class="container">
-            <h2 class="section-title">Season Timeline</h2>
-            <div class="timeline-items">
-                <div class="timeline-item">
-                    <div class="timeline-date">May 2025</div>
-                    <div class="timeline-content">
-                        <h3>Team Registration Opens</h3>
-                        <p>Teams begin forming and registering for the upcoming season</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Sept 6, 2025</div>
-                    <div class="timeline-content">
-                        <h3>Season Kickoff</h3>
-                        <p>DECODE game revealed and season officially begins</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Sept - Jan</div>
-                    <div class="timeline-content">
-                        <h3>Design & Build Season</h3>
-                        <p>Teams design, build, and program their robots while engaging in outreach</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Dec - Mar</div>
-                    <div class="timeline-content">
-                        <h3>Qualifying Tournaments</h3>
-                        <p>Teams compete at local and regional qualifying events</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Feb - Mar</div>
-                    <div class="timeline-content">
-                        <h3>Championship Tournaments</h3>
-                        <p>Top teams advance to state and regional championship competitions</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">April 2026</div>
-                    <div class="timeline-content">
-                        <h3>FIRST Championship</h3>
-                        <p>World Championship held in Houston, Texas with 256 teams competing</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="awards" class="awards container">
-        <h2 class="section-title">Competition Awards</h2>
-        <div class="awards-grid">
-            <div class="award-card">
-                <h3 class="award-name">Inspire Award</h3>
-                <p class="award-description">Presented to the team that truly embodies the challenge of FTC. Strong ambassadors for FIRST who promote the program in their community.</p>
-            </div>
-            <div class="award-card">
-                <h3 class="award-name">Think Award</h3>
-                <p class="award-description">Recognizes the team that best reflects the journey of the engineering design process, documented in their engineering portfolio.</p>
-            </div>
-            <div class="award-card">
-                <h3 class="award-name">Connect Award</h3>
-                <p class="award-description">Celebrates teams that most connect with their local STEM community and demonstrate effective outreach efforts.</p>
-            </div>
-            <div class="award-card">
-                <h3 class="award-name">Innovate Award
+        <div class="margin-health-note" id="t-margin-note" style="color:var(--red);">Below industry standard</div>
+      </div>
+      <span class="slider-val" id="t-margin-out">55%</span>
+    </div>
+    <!-- Shipping -->
+    <div class="shipping-row">
+      <span class="shipping-label">Shipping cost (online)</span>
+      <input type="number" class="shipping-input" id="t-shipping" placeholder="0.00" min="0" step="0.25" oninput="calcShirts()">
+      <span class="shipping-note" id="t-shipping-note">Adds to cost, reduces effective margin</span>
+    </div>
+    <!-- Platform fees -->
+    <div class="fees-section">
+      <span class="shipping-label">Platform fee</span>
+      <select class="fee-select" id="t-fee-select" onchange="onFeeChange('t')">
+        <option value="0">None</option>
+        <option value="0.065">Etsy (~6.5%)</option>
+        <option value="0.05">Shopify (~5%)</option>
+        <option value="custom">Custom %</option>
+      </select>
+      <input type="number" class="fee-custom-input" id="t-fee-custom" placeholder="%" min="0" max="50" step="0.1" oninput="calcShirts()">
+      <span class="fee-note" id="t-fee-note"></span>
+    </div>
+    <div class="custom-row">
+      <label>Custom blank cost ($)</label>
+      <input type="number" class="custom-input" id="t-custom-val" placeholder="0.00" step="0.01" min="0">
+      <button class="custom-apply" onclick="applyCustom('t')">Apply</button>
+      <span class="custom-badge">Custom</span>
+    </div>
+  </div>
+ 
+  <div class="card">
+    <div class="card-label">Results — <span id="t-context-label">All sizes · All series</span></div>
+    <div class="metrics-grid">
+      <div class="metric"><div class="metric-label">Cost / shirt</div><div class="metric-value" id="t-cost">—</div><div class="metric-sub">blank + print</div></div>
+      <div class="metric"><div class="metric-label">Sell price</div><div class="metric-value" id="t-sell">—</div><div class="metric-sub">recommended</div></div>
+      <div class="metric"><div class="metric-label">Profit / shirt</div><div class="metric-value" id="t-profit">—</div><div class="metric-sub" id="t-profit-sub">after cost</div></div>
+      <div class="metric"><div class="metric-label">Total profit</div><div class="metric-value" id="t-tprofit">—</div><div class="metric-sub">full batch sold</div></div>
+    </div>
+ 
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:12px;">Size tier pricing</div>
+    <div class="sizes-grid" id="t-sizes"></div>
+ 
+    <div class="divider"></div>
+    <div class="card-label" style="margin-bottom:12px;">Series pricing breakdown</div>
+    <table class="pricing-table" id="t-series-table"></table>
+ 
+    <div class="divider"></div>
+    <div class="tip" id="t-tip"></div>
+  </div>
+ 
+</div>
+ 
+<footer>FindYourNorth &mdash; adjust sliders to match your actual costs</footer>
+</div>
+ 
+<!-- DRAGGABLE CALCULATOR -->
+<div class="calc-widget" id="calc-widget">
+  <div class="calc-drag" id="calc-drag">
+    <span class="calc-title">Calculator</span>
+    <button class="calc-close" onclick="toggleCalc()">×</button>
+  </div>
+  <div class="calc-expr" id="calc-expr"></div>
+  <div class="calc-display" id="calc-display">0</div>
+  <div class="calc-btns">
+    <button class="cb op" onclick="calcPress('C')">C</button>
+    <button class="cb op" onclick="calcPress('+/-')">±</button>
+    <button class="cb op" onclick="calcPress('%')">%</button>
+    <button class="cb op" onclick="calcPress('/')">÷</button>
+    <button class="cb" onclick="calcPress('7')">7</button>
+    <button class="cb" onclick="calcPress('8')">8</button>
+    <button class="cb" onclick="calcPress('9')">9</button>
+    <button class="cb op" onclick="calcPress('*')">×</button>
+    <button class="cb" onclick="calcPress('4')">4</button>
+    <button class="cb" onclick="calcPress('5')">5</button>
+    <button class="cb" onclick="calcPress('6')">6</button>
+    <button class="cb op" onclick="calcPress('-')">−</button>
+    <button class="cb" onclick="calcPress('1')">1</button>
+    <button class="cb" onclick="calcPress('2')">2</button>
+    <button class="cb" onclick="calcPress('3')">3</button>
+    <button class="cb op" onclick="calcPress('+')">+</button>
+    <button class="cb wide" onclick="calcPress('0')">0</button>
+    <button class="cb" onclick="calcPress('.')">.</button>
+    <button class="cb eq" onclick="calcPress('=')">=</button>
+  </div>
+</div>
+ 
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────
+const STICKER_SERIES = [
+  { key: 'good-day',  name: 'Good Day',      costMult: 1.00, note: 'Simple affirmations, clean type' },
+  { key: 'faith',     name: 'Faith',         costMult: 1.05, note: 'Spiritual icons, scripture type' },
+  { key: 'street',    name: 'Street Culture',costMult: 1.10, note: 'Bold graphics, graffiti style' },
+  { key: 'furever',   name: 'Furever',       costMult: 1.08, note: 'Illustrated animals, kawaii' },
+  { key: 'roots',     name: 'Roots',         costMult: 1.12, note: 'Nature, Idaho landscapes' },
+  { key: 'nostalgia', name: 'Nostalgia',     costMult: 1.10, note: 'Retro, vintage, Y2K' },
+  { key: 'local',     name: 'Local Love',    costMult: 1.05, note: 'Idaho pride, badges' },
+  { key: 'grind',     name: 'Mind & Grind',  costMult: 1.00, note: 'Motivational type-only' },
+];
+const STICKER_SIZES = {
+  small: { label: 'Small (2")',  costMult: 0.75, sellMult: 0.80 },
+  med:   { label: 'Medium (3")', costMult: 1.00, sellMult: 1.00 },
+  large: { label: 'Large (4")',  costMult: 1.30, sellMult: 1.35 },
+};
+const SHIRT_SERIES = [
+  { key: 'good-day',  name: 'Good Day',      printMult: 1.00, note: 'Minimal, feel-good type' },
+  { key: 'faith',     name: 'Faith',         printMult: 1.05, note: 'Scripture, cross motifs' },
+  { key: 'street',    name: 'Street Culture',printMult: 1.15, note: 'Bold graphics, urban' },
+  { key: 'furever',   name: 'Furever',       printMult: 1.12, note: 'Detailed animal illustration' },
+  { key: 'roots',     name: 'Roots',         printMult: 1.10, note: 'Nature, WPA-style art' },
+  { key: 'nostalgia', name: 'Nostalgia',     printMult: 1.08, note: 'Retro, distressed print' },
+  { key: 'local',     name: 'Local Love',    printMult: 1.05, note: 'Idaho pride badges' },
+  { key: 'grind',     name: 'Mind & Grind',  printMult: 1.00, note: 'Clean type, minimal' },
+];
+const SHIRT_SIZES = [
+  { key: 'xs-l', name: 'XS – L', blankMult: 1.00, note: 'Base price' },
+  { key: 'xl',   name: 'XL',     blankMult: 1.00, note: 'Same as base' },
+  { key: '2xl',  name: '2XL',    blankMult: 1.08, note: '+$1–2 upcharge' },
+  { key: '3xl',  name: '3XL+',   blankMult: 1.15, note: '+$2–4 upcharge' },
+];
+ 
+// POD providers: base shirt + print cost at various quantities
+const POD_PROVIDERS = [
+  { name: 'Printful',  baseCost: 14.95, note: 'Premium quality, fast ship' },
+  { name: 'Printify',  baseCost: 12.99, note: 'Largest network, cheaper' },
+  { name: 'Gooten',    baseCost: 11.50, note: 'Budget-friendly POD' },
+];
+ 
+// ── STATE ─────────────────────────────────────────────────────────────────
+let partnerOn = false;
+let sSeriesFilter = 'all';
+let sSizeFilter = 'med';
+let tSeriesFilter = 'all';
+let tSizeFilter = 'all';
+const PARTNER_BLANK = 0.15;
+const PARTNER_PRINT = 0.10;
+let sEventMode = false;
+let tEventMode = false;
+let tPODMode = false;
+ 
+// Cached sell prices for goal calc
+let sSellPrice = 0;
+let tSellPrice = 0;
+ 
+// ── UTILS ─────────────────────────────────────────────────────────────────
+const fmt = n => '$' + (Math.round(n * 100) / 100).toFixed(2);
+const fmtK = n => n >= 1000 ? '$' + (Math.round(n / 10) / 100).toFixed(1) + 'k' : '$' + Math.round(n);
+const ceilQ = n => Math.ceil(n * 4) / 4;
+const ceilHalf = n => Math.ceil(n / 0.5) * 0.5;
+const roundEvent = n => {
+  if (n <= 2) return Math.ceil(n);
+  if (n <= 5) return Math.ceil(n * 2) / 2;
+  if (n <= 20) return Math.ceil(n);
+  return Math.ceil(n / 5) * 5;
+};
+ 
+// ── MARGIN HEALTH ─────────────────────────────────────────────────────────
+function updateMarginHealth(prefix, marginPct, minVal, maxVal) {
+  const ind = document.getElementById(prefix + '-margin-ind');
+  const note = document.getElementById(prefix + '-margin-note');
+  const range = maxVal - minVal;
+  const pct = (marginPct - minVal) / range * 100;
+  ind.style.left = `calc(${pct}% - 5px)`;
+  if (marginPct < 40) {
+    ind.style.background = '#e87a6a';
+    note.style.color = 'var(--red)';
+    note.textContent = 'Below industry standard — consider raising prices';
+  } else if (marginPct < 55) {
+    ind.style.background = '#e8c96a';
+    note.style.color = 'var(--yellow)';
+    note.textContent = 'Acceptable — room to grow margin';
+  } else {
+    ind.style.background = '#2db870';
+    note.style.color = 'var(--green)';
+    note.textContent = 'Healthy margin for indie apparel';
+  }
+}
+ 
+// ── FEES ──────────────────────────────────────────────────────────────────
+function onFeeChange(prefix) {
+  const sel = document.getElementById(prefix + '-fee-select');
+  const custom = document.getElementById(prefix + '-fee-custom');
+  if (sel.value === 'custom') {
+    custom.style.display = 'inline-block';
+  } else {
+    custom.style.display = 'none';
+  }
+  if (prefix === 's') calcStickers(); else calcShirts();
+}
+ 
+function getFeeRate(prefix) {
+  const sel = document.getElementById(prefix + '-fee-select');
+  if (sel.value === 'custom') {
+    const v = parseFloat(document.getElementById(prefix + '-fee-custom').value);
+    return isNaN(v) ? 0 : v / 100;
+  }
+  return parseFloat(sel.value) || 0;
+}
+ 
+// ── THEME ─────────────────────────────────────────────────────────────────
+let darkMode = false;
+function toggleTheme() {
+  darkMode = !darkMode;
+  document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+  const icon = document.getElementById('theme-icon');
+  icon.innerHTML = darkMode
+    ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" fill="currentColor" stroke="none"/>'
+    : '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+}
+ 
+// ── TAB ───────────────────────────────────────────────────────────────────
+function switchTab(tab, el) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+ 
+// ── PARTNER ───────────────────────────────────────────────────────────────
+function togglePartner() {
+  partnerOn = !partnerOn;
+  document.getElementById('partner-btn').classList.toggle('on', partnerOn);
+  document.getElementById('p-label').textContent = partnerOn ? 'Partnership: on' : 'Partnership';
+  document.getElementById('partner-notice').classList.toggle('show', partnerOn);
+  calcStickers(); calcShirts();
+}
+ 
+// ── FILTERS ───────────────────────────────────────────────────────────────
+function setSFilter(type, el) {
+  el.closest('.filter-bar').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (type === 'series') sSeriesFilter = el.dataset.val;
+  else sSizeFilter = el.dataset.val;
+  calcStickers();
+}
+function setTFilter(type, el) {
+  el.closest('.filter-bar').querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  if (type === 'series') tSeriesFilter = el.dataset.val;
+  else tSizeFilter = el.dataset.val;
+  calcShirts();
+}
+ 
+// ── CUSTOM APPLY ──────────────────────────────────────────────────────────
+function applyCustom(type) {
+  if (type === 's') {
+    const val = parseFloat(document.getElementById('s-custom-val').value);
+    if (isNaN(val) || val <= 0) return;
+    const slider = document.getElementById('s-cost');
+    const cents = Math.round(val * 100);
+    slider.value = Math.min(Math.max(cents, parseInt(slider.min)), parseInt(slider.max));
+    calcStickers();
+  } else {
+    const val = parseFloat(document.getElementById('t-custom-val').value);
+    if (isNaN(val) || val <= 0) return;
+    const slider = document.getElementById('t-blank');
+    const cents = Math.round(val * 10);
+    slider.value = Math.min(Math.max(cents, parseInt(slider.min)), parseInt(slider.max));
+    calcShirts();
+  }
+}
+ 
+// ── EVENT MODE ────────────────────────────────────────────────────────────
+function toggleEventMode(prefix) {
+  if (prefix === 's') {
+    sEventMode = !sEventMode;
+    document.getElementById('s-event-btn').classList.toggle('on', sEventMode);
+    document.getElementById('s-event-wrap').classList.toggle('show', sEventMode);
+    if (sEventMode) calcStickers();
+  } else {
+    tEventMode = !tEventMode;
+    document.getElementById('t-event-btn').classList.toggle('on', tEventMode);
+    document.getElementById('t-event-wrap').classList.toggle('show', tEventMode);
+    if (tEventMode) calcShirts();
+  }
+}
+ 
+function renderEventMode(prefix, sell) {
+  if (prefix === 's') {
+    if (!sEventMode) return;
+    const single = roundEvent(sell);
+    const b3 = roundEvent(sell * 3 * 0.9);
+    const b5 = roundEvent(sell * 5 * 0.85);
+    const mix2 = roundEvent(sell * 2 * 0.95);
+    document.getElementById('s-event-grid').innerHTML = [
+      { label: 'Single', price: fmt(single), note: 'Per sticker' },
+      { label: '2-pack mix', price: fmt(mix2), note: '~5% off — easy add-on' },
+      { label: '3-pack', price: fmt(b3), note: '10% off bundle' },
+      { label: '5-pack', price: fmt(b5), note: '15% off — best value' },
+    ].map(i => `<div class="event-item"><div class="event-item-label">${i.label}</div><div class="event-item-price">${i.price}</div><div class="event-item-note">${i.note}</div></div>`).join('');
+  } else {
+    if (!tEventMode) return;
+    const single = roundEvent(sell);
+    const b2 = roundEvent(sell * 2 * 0.9);
+    const b3 = roundEvent(sell * 3 * 0.85);
+    const mix = roundEvent(sell * 1 + 3); // shirt + sticker upsell
+    document.getElementById('t-event-grid').innerHTML = [
+      { label: 'Single shirt', price: fmt(single), note: 'Per unit' },
+      { label: '2-shirt bundle', price: fmt(b2), note: '~10% off — friend deal' },
+      { label: '3-shirt bundle', price: fmt(b3), note: '~15% off — group buy' },
+      { label: 'Shirt + sticker', price: fmt(mix), note: 'Upsell combo (+$3)' },
+    ].map(i => `<div class="event-item"><div class="event-item-label">${i.label}</div><div class="event-item-price">${i.price}</div><div class="event-item-note">${i.note}</div></div>`).join('');
+  }
+}
+ 
+// ── GOAL MODE ─────────────────────────────────────────────────────────────
+function toggleGoalMode(prefix) {
+  const card = document.getElementById(prefix + '-goal-card');
+  const btn = document.getElementById(prefix + '-goal-btn');
+  const showing = card.style.display !== 'none';
+  card.style.display = showing ? 'none' : 'block';
+  btn.classList.toggle('on', !showing);
+  if (!showing) calcGoal(prefix);
+}
+ 
+function calcGoal(prefix) {
+  const input = document.getElementById(prefix + '-goal-input');
+  const result = document.getElementById(prefix + '-goal-result');
+  const sub = document.getElementById(prefix + '-goal-sub');
+  const goal = parseFloat(input.value);
+  const sell = prefix === 's' ? sSellPrice : tSellPrice;
+  if (isNaN(goal) || goal <= 0 || sell <= 0) {
+    result.textContent = '—';
+    sub.textContent = 'Enter a dollar amount above';
+    return;
+  }
+  // How many units sold at current sell price gives this revenue?
+  const units = Math.ceil(goal / sell);
+  const revenue = units * sell;
+  result.textContent = `${units} units`;
+  sub.textContent = `= ${fmt(revenue)} revenue at ${fmt(sell)} each`;
+}
+ 
+// ── POD TOGGLE ────────────────────────────────────────────────────────────
+function togglePOD() {
+  tPODMode = !tPODMode;
+  document.getElementById('t-pod-btn').classList.toggle('on', tPODMode);
+  document.getElementById('t-pod-panel').classList.toggle('show', tPODMode);
+  if (tPODMode) calcShirts();
+}
+ 
+function renderPOD(sell, batchCost, qty) {
+  if (!tPODMode) return;
+  const margin = parseInt(document.getElementById('t-margin').value) / 100;
+  let html = '';
+  let crossoverMin = Infinity, crossoverProvider = '';
+  POD_PROVIDERS.forEach(p => {
+    const podCost = p.baseCost;
+    const podMargin = Math.round(((sell - podCost) / sell) * 100);
+    const cls = podMargin >= 55 ? 'good' : podMargin >= 40 ? 'ok' : 'bad';
+    const marginLabel = podMargin > 0 ? `${podMargin}% margin` : 'No margin at this price';
+    html += `<div class="pod-item">
+      <div class="pod-provider">${p.name}</div>
+      <div class="pod-price">${fmt(podCost)} / unit</div>
+      <div class="pod-margin ${cls}">${marginLabel}</div>
+      <div style="font-size:10px;color:var(--text-faint);margin-top:3px;">${p.note}</div>
+    </div>`;
+    // Crossover: batch_cost_total = podCost * n => batchCost * n (flat) vs podCost * n
+    // Actually: crossover at qty where batchCost == podCost per unit (they're already per unit)
+    // Real crossover: fixed setup amortized. Assume setup = 0 for simplicity.
+    // Better: crossover = qty where total batch cost (fixed print run) < POD total
+    // With batch: cost is fixed at batchCost regardless of qty. POD scales linearly.
+    // Crossover = batch_fixed_total / (podCost - batchCost) if podCost > batchCost
+    const batchFixed = batchCost * qty; // total batch spend
+    if (podCost > batchCost) {
+      const co = Math.ceil(batchFixed / (podCost - batchCost));
+      if (co < crossoverMin) { crossoverMin = co; crossoverProvider = p.name; }
+    }
+  });
+  document.getElementById('t-pod-grid').innerHTML = html;
+  const crossoverText = crossoverMin < Infinity
+    ? `<strong>Batch vs POD crossover (${crossoverProvider}):</strong> Batching becomes cheaper per unit after selling ~<strong>${crossoverMin} shirts</strong> from a single run.`
+    : `Your batch cost is already lower than all POD providers at this quantity. Batching wins.`;
+  document.getElementById('t-pod-crossover').innerHTML = crossoverText;
+}
+ 
+// ── SCENARIOS ─────────────────────────────────────────────────────────────
+function toggleScenarios(prefix) {
+  const panel = document.getElementById(prefix + '-scenarios-panel');
+  const btn = document.getElementById(prefix + '-scenarios-btn');
+  const showing = panel.classList.contains('show');
+  panel.classList.toggle('show', !showing);
+  btn.classList.toggle('on', !showing);
+  if (!showing) renderScenarioList(prefix);
+}
+ 
+function getScenarioState(prefix) {
+  if (prefix === 's') {
+    return {
+      cost: document.getElementById('s-cost').value,
+      qty: document.getElementById('s-qty').value,
+      margin: document.getElementById('s-margin').value,
+      size: sSizeFilter,
+      series: sSeriesFilter,
+      shipping: document.getElementById('s-shipping').value || '0',
+      fee: document.getElementById('s-fee-select').value,
+    };
+  } else {
+    return {
+      blank: document.getElementById('t-blank').value,
+      print: document.getElementById('t-print').value,
+      qty: document.getElementById('t-qty').value,
+      margin: document.getElementById('t-margin').value,
+      size: tSizeFilter,
+      series: tSeriesFilter,
+      shipping: document.getElementById('t-shipping').value || '0',
+      fee: document.getElementById('t-fee-select').value,
+    };
+  }
+}
+ 
+function loadScenarioState(prefix, state) {
+  if (prefix === 's') {
+    document.getElementById('s-cost').value = state.cost;
+    document.getElementById('s-qty').value = state.qty;
+    document.getElementById('s-margin').value = state.margin;
+    document.getElementById('s-shipping').value = state.shipping || '0';
+    document.getElementById('s-fee-select').value = state.fee || '0';
+    calcStickers();
+  } else {
+    document.getElementById('t-blank').value = state.blank;
+    document.getElementById('t-print').value = state.print;
+    document.getElementById('t-qty').value = state.qty;
+    document.getElementById('t-margin').value = state.margin;
+    document.getElementById('t-shipping').value = state.shipping || '0';
+    document.getElementById('t-fee-select').value = state.fee || '0';
+    calcShirts();
+  }
+}
+ 
+function saveScenario(prefix) {
+  const nameEl = document.getElementById(prefix + '-scenario-name');
+  const name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  const key = 'fyn_scenarios_' + prefix;
+  let scenarios = [];
+  try { scenarios = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+  scenarios.unshift({ name, state: getScenarioState(prefix), saved: new Date().toLocaleDateString() });
+  if (scenarios.length > 10) scenarios = scenarios.slice(0, 10);
+  localStorage.setItem(key, JSON.stringify(scenarios));
+  nameEl.value = '';
+  renderScenarioList(prefix);
+}
+ 
+function renderScenarioList(prefix) {
+  const key = 'fyn_scenarios_' + prefix;
+  let scenarios = [];
+  try { scenarios = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+  const list = document.getElementById(prefix + '-scenario-list');
+  if (scenarios.length === 0) {
+    list.innerHTML = '<div class="scenarios-empty">No saved scenarios yet</div>';
+    return;
+  }
+  list.innerHTML = scenarios.map((s, i) => `
+    <div class="scenario-item">
+      <div>
+        <div class="scenario-item-name">${s.name}</div>
+        <div class="scenario-item-meta">${s.saved || ''}</div>
+      </div>
+      <button class="scenario-item-btn" onclick="loadScenario('${prefix}',${i})">Load</button>
+      <button class="scenario-item-del" onclick="deleteScenario('${prefix}',${i})">✕</button>
+    </div>
+  `).join('');
+}
+ 
+function loadScenario(prefix, index) {
+  const key = 'fyn_scenarios_' + prefix;
+  let scenarios = [];
+  try { scenarios = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+  if (scenarios[index]) loadScenarioState(prefix, scenarios[index].state);
+}
+ 
+function deleteScenario(prefix, index) {
+  const key = 'fyn_scenarios_' + prefix;
+  let scenarios = [];
+  try { scenarios = JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) {}
+  scenarios.splice(index, 1);
+  localStorage.setItem(key, JSON.stringify(scenarios));
+  renderScenarioList(prefix);
+}
+ 
+// ── EXPORT CSV ────────────────────────────────────────────────────────────
+function exportCSV(prefix) {
+  const tableEl = document.getElementById(prefix === 's' ? 's-series-table' : 't-series-table');
+  if (!tableEl) return;
+  const rows = [];
+  const headers = [];
+  tableEl.querySelectorAll('thead th').forEach(th => headers.push('"' + th.textContent.trim() + '"'));
+  rows.push(headers.join(','));
+  tableEl.querySelectorAll('tbody tr').forEach(tr => {
+    const cells = [];
+    tr.querySelectorAll('td').forEach(td => cells.push('"' + td.textContent.trim() + '"'));
+    rows.push(cells.join(','));
+  });
+  const csv = rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'findyournorth_pricing_' + (prefix === 's' ? 'stickers' : 'shirts') + '_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+ 
+// ── STICKERS CALC ─────────────────────────────────────────────────────────
+function calcStickers() {
+  const rawCostCents = parseInt(document.getElementById('s-cost').value);
+  const rawCost = rawCostCents / 100;
+  const qty = parseInt(document.getElementById('s-qty').value);
+  const margin = parseInt(document.getElementById('s-margin').value) / 100;
+  const shipping = parseFloat(document.getElementById('s-shipping').value) || 0;
+  const feeRate = getFeeRate('s');
+ 
+  document.getElementById('s-cost-out').textContent = fmt(rawCost);
+  document.getElementById('s-qty-out').textContent = qty;
+  document.getElementById('s-margin-out').textContent = Math.round(margin * 100) + '%';
+ 
+  updateMarginHealth('s', Math.round(margin * 100), 10, 80);
+ 
+  const sizeData = STICKER_SIZES[sSizeFilter];
+  const sizeCostMult = sizeData.costMult;
+ 
+  const baseCostRaw = rawCost * sizeCostMult;
+  const baseCost = partnerOn ? baseCostRaw * (1 - PARTNER_BLANK) : baseCostRaw;
+  const totalCost = baseCost + shipping;
+  const sell = ceilQ(totalCost / (1 - margin));
+  const wasSell = ceilQ(baseCostRaw / (1 - margin));
+  const profit = Math.round((sell - totalCost) * 100) / 100;
+  const profitAfterFee = Math.round((sell * (1 - feeRate) - totalCost) * 100) / 100;
+  const tprofit = profit * qty;
+  const tprofitAfterFee = profitAfterFee * qty;
+ 
+  sSellPrice = sell;
+ 
+  document.getElementById('s-cost-eff').innerHTML = partnerOn
+    ? `<span class="was">${fmt(baseCostRaw)}</span>${fmt(baseCost)}`
+    : fmt(baseCost);
+  document.getElementById('s-cost-eff-sub').textContent = partnerOn ? '15% partner rate' : (shipping > 0 ? `+${fmt(shipping)} shipping` : 'your cost');
+  document.getElementById('s-sell').innerHTML = partnerOn
+    ? `<span class="was">${fmt(wasSell)}</span>${fmt(sell)}`
+    : fmt(sell);
+ 
+  if (feeRate > 0) {
+    document.getElementById('s-profit').textContent = fmt(profitAfterFee);
+    document.getElementById('s-profit-sub').textContent = `after ${Math.round(feeRate*100)}% fee`;
+    document.getElementById('s-tprofit').textContent = fmtK(tprofitAfterFee);
+  } else {
+    document.getElementById('s-profit').textContent = fmt(profit);
+    document.getElementById('s-profit-sub').textContent = 'after cost';
+    document.getElementById('s-tprofit').textContent = fmtK(tprofit);
+  }
+  document.getElementById('s-tprofit-sub').textContent = qty + ' stickers';
+ 
+  if (shipping > 0) {
+    const effMargin = Math.round(((sell - totalCost) / sell) * 100);
+    document.getElementById('s-shipping-note').textContent = `Effective margin: ${effMargin}% (was ${Math.round(margin*100)}%)`;
+  } else {
+    document.getElementById('s-shipping-note').textContent = 'Adds to cost, reduces effective margin';
+  }
+ 
+  if (feeRate > 0) {
+    const netPer = sell * (1 - feeRate);
+    document.getElementById('s-fee-note').textContent = `You net ${fmt(netPer)} per sale`;
+  } else {
+    document.getElementById('s-fee-note').textContent = '';
+  }
+ 
+  const sizeLabel = sizeData.label;
+  const seriesLabel = sSeriesFilter === 'all' ? 'All series' : STICKER_SERIES.find(s => s.key === sSeriesFilter)?.name || '';
+  document.getElementById('s-context-label').textContent = `${sizeLabel} · ${seriesLabel}`;
+ 
+  // Series table
+  const filteredSeries = sSeriesFilter === 'all' ? STICKER_SERIES : STICKER_SERIES.filter(s => s.key === sSeriesFilter);
+  let tableHTML = '<thead><tr><th>Series</th><th>Cost</th><th>Sell price</th><th>Margin</th><th>Note</th></tr></thead><tbody>';
+  filteredSeries.forEach(s => {
+    const sc = baseCost * s.costMult + shipping;
+    const sp = ceilQ(sc / (1 - margin));
+    const mp = Math.round(((sp - sc) / sp) * 100);
+    tableHTML += `<tr>
+      <td>${s.name}</td>
+      <td class="mono">${fmt(sc)}</td>
+      <td class="mono">${fmt(sp)}</td>
+      <td class="mono">${mp}%</td>
+      <td>${s.note}</td>
+    </tr>`;
+  });
+  tableHTML += '</tbody>';
+  document.getElementById('s-series-table').innerHTML = tableHTML;
+ 
+  // Bundles
+  const b3 = ceilQ(sell * 3 * 0.90);
+  const b5 = ceilQ(sell * 5 * 0.85);
+  const b10 = ceilQ(sell * 10 * 0.80);
+  document.getElementById('s-bundles').innerHTML = [
+    { n: '3-pack', p: b3, o: '10% off' },
+    { n: '5-pack', p: b5, o: '15% off' },
+    { n: '10-pack', p: b10, o: '20% off' },
+  ].map(b => `<div class="bundle"><div class="bundle-name">${b.n}</div><div class="bundle-price">${fmt(b.p)}</div><div class="bundle-off">${b.o}</div></div>`).join('');
+ 
+  renderEventMode('s', sell);
+  calcGoal('s');
+ 
+  let tip = sell < 2
+    ? 'At this price, bundles perform better online — shipping eats single-unit margins. In-person markets are ideal for individual stickers.'
+    : sell < 4
+    ? 'Great in-person price. Online, lead with bundle packs and offer singles as add-ons. Consider free shipping on 5+ orders.'
+    : 'Premium range — customers expect die-cut or holographic quality. Works well online and in person. Bundles make great gifts.';
+  if (partnerOn) tip += ' Partnership is lowering your cost — consider passing some savings to buyers or pocketing the extra margin.';
+  document.getElementById('s-tip').textContent = tip;
+}
+ 
+// ── SHIRTS CALC ───────────────────────────────────────────────────────────
+function calcShirts() {
+  const rawBlank = parseInt(document.getElementById('t-blank').value) / 10;
+  const rawPrint = parseInt(document.getElementById('t-print').value) / 10;
+  const qty = parseInt(document.getElementById('t-qty').value);
+  const margin = parseInt(document.getElementById('t-margin').value) / 100;
+  const shipping = parseFloat(document.getElementById('t-shipping').value) || 0;
+  const feeRate = getFeeRate('t');
+ 
+  document.getElementById('t-blank-out').textContent = fmt(rawBlank);
+  document.getElementById('t-print-out').textContent = fmt(rawPrint);
+  document.getElementById('t-qty-out').textContent = qty;
+  document.getElementById('t-margin-out').textContent = Math.round(margin * 100) + '%';
+ 
+  updateMarginHealth('t', Math.round(margin * 100), 10, 75);
+ 
+  const blank = partnerOn ? rawBlank * (1 - PARTNER_BLANK) : rawBlank;
+  const print = partnerOn ? rawPrint * (1 - PARTNER_PRINT) : rawPrint;
+  const cost = Math.round((blank + print) * 100) / 100;
+  const rawCost = Math.round((rawBlank + rawPrint) * 100) / 100;
+  const totalCost = cost + shipping;
+  const sell = ceilHalf(totalCost / (1 - margin));
+  const wasSell = ceilHalf(rawCost / (1 - margin));
+  const profit = Math.round((sell - totalCost) * 100) / 100;
+  const profitAfterFee = Math.round((sell * (1 - feeRate) - totalCost) * 100) / 100;
+  const tprofit = profit * qty;
+  const tprofitAfterFee = profitAfterFee * qty;
+ 
+  tSellPrice = sell;
+ 
+  document.getElementById('t-cost').innerHTML = partnerOn
+    ? `<span class="was">${fmt(rawCost)}</span>${fmt(cost)}`
+    : fmt(cost);
+  document.getElementById('t-sell').innerHTML = partnerOn
+    ? `<span class="was">${fmt(wasSell)}</span>${fmt(sell)}`
+    : fmt(sell);
+ 
+  if (feeRate > 0) {
+    document.getElementById('t-profit').textContent = fmt(profitAfterFee);
+    document.getElementById('t-profit-sub').textContent = `after ${Math.round(feeRate*100)}% fee`;
+    document.getElementById('t-tprofit').textContent = fmtK(tprofitAfterFee);
+  } else {
+    document.getElementById('t-profit').textContent = fmt(profit);
+    document.getElementById('t-profit-sub').textContent = 'after cost';
+    document.getElementById('t-tprofit').textContent = fmtK(tprofit);
+  }
+ 
+  if (shipping > 0) {
+    const effMargin = Math.round(((sell - totalCost) / sell) * 100);
+    document.getElementById('t-shipping-note').textContent = `Effective margin: ${effMargin}% (was ${Math.round(margin*100)}%)`;
+  } else {
+    document.getElementById('t-shipping-note').textContent = 'Adds to cost, reduces effective margin';
+  }
+ 
+  if (feeRate > 0) {
+    const netPer = sell * (1 - feeRate);
+    document.getElementById('t-fee-note').textContent = `You net ${fmt(netPer)} per sale`;
+  } else {
+    document.getElementById('t-fee-note').textContent = '';
+  }
+ 
+  const sizeLabel = tSizeFilter === 'all' ? 'All sizes' : SHIRT_SIZES.find(s => s.key === tSizeFilter)?.name || '';
+  const seriesLabel = tSeriesFilter === 'all' ? 'All series' : SHIRT_SERIES.find(s => s.key === tSeriesFilter)?.name || '';
+  document.getElementById('t-context-label').textContent = `${sizeLabel} · ${seriesLabel}`;
+ 
+  // Size grid
+  const filteredSizes = tSizeFilter === 'all' ? SHIRT_SIZES : SHIRT_SIZES.filter(s => s.key === tSizeFilter);
+  document.getElementById('t-sizes').innerHTML = filteredSizes.map(s => {
+    const bc = totalCost * s.blankMult;
+    const sp = ceilHalf(bc / (1 - margin));
+    const mp = Math.round(((sp - bc) / sp) * 100);
+    return `<div class="size-item"><div class="size-name">${s.name}</div><div class="size-price">${fmt(sp)}</div><div class="size-note">${s.note} &middot; ~${mp}% margin</div></div>`;
+  }).join('');
+ 
+  // Series table
+  const filteredSeries = tSeriesFilter === 'all' ? SHIRT_SERIES : SHIRT_SERIES.filter(s => s.key === tSeriesFilter);
+  let tableHTML = '<thead><tr><th>Series</th><th>Cost</th><th>Sell price</th><th>Margin</th><th>Note</th></tr></thead><tbody>';
+  filteredSeries.forEach(s => {
+    const sc = totalCost * s.printMult;
+    const sp = ceilHalf(sc / (1 - margin));
+    const mp = Math.round(((sp - sc) / sp) * 100);
+    tableHTML += `<tr>
+      <td>${s.name}</td>
+      <td class="mono">${fmt(sc)}</td>
+      <td class="mono">${fmt(sp)}</td>
+      <td class="mono">${mp}%</td>
+      <td>${s.note}</td>
+    </tr>`;
+  });
+  tableHTML += '</tbody>';
+  document.getElementById('t-series-table').innerHTML = tableHTML;
+ 
+  renderEventMode('t', sell);
+  renderPOD(sell, cost, qty);
+  calcGoal('t');
+ 
+  let tip = sell < 20
+    ? 'Competitive pricing — great for volume and markets. Ensure print quality justifies it; buyers compare to fast fashion at this range.'
+    : sell < 35
+    ? 'Sweet spot for indie apparel. Above mass market but accessible. Works in person and online with solid product photography.'
+    : 'Premium tier — justify with heavyweight blanks, specialty printing, or limited-run drops. Buyers at this price expect strong branding.';
+  if (partnerOn) tip += ' Partner pricing on blanks (15% off) and print (10% off) — lower sell price to drive volume, or hold and grow margin.';
+  document.getElementById('t-tip').textContent = tip;
+}
+ 
+// ── DRAGGABLE CALCULATOR ──────────────────────────────────────────────────
+let calcVisible = false;
+function toggleCalc() {
+  calcVisible = !calcVisible;
+  document.getElementById('calc-widget').classList.toggle('show', calcVisible);
+  document.getElementById('calc-btn').classList.toggle('active', calcVisible);
+}
+ 
+let calcCurrent = '0', calcExpr = '', calcOp = null, calcPrev = null, calcJustEvaled = false;
+function calcPress(key) {
+  const disp = document.getElementById('calc-display');
+  const expr = document.getElementById('calc-expr');
+  if (key === 'C') {
+    calcCurrent = '0'; calcExpr = ''; calcOp = null; calcPrev = null; calcJustEvaled = false;
+  } else if (key === '+/-') {
+    calcCurrent = String(-parseFloat(calcCurrent));
+  } else if (key === '%') {
+    calcCurrent = String(parseFloat(calcCurrent) / 100);
+  } else if (['+','-','*','/'].includes(key)) {
+    if (calcOp && !calcJustEvaled) {
+      calcCurrent = String(doCalc(parseFloat(calcPrev), parseFloat(calcCurrent), calcOp));
+    }
+    calcPrev = calcCurrent;
+    calcOp = key;
+    calcExpr = calcCurrent + ' ' + {'+':'+','-':'−','*':'×','/':'÷'}[key];
+    calcJustEvaled = false;
+    calcCurrent = '0';
+  } else if (key === '=') {
+    if (calcOp && calcPrev !== null) {
+      const result = doCalc(parseFloat(calcPrev), parseFloat(calcCurrent), calcOp);
+      calcExpr = calcPrev + ' ' + {'+':'+','-':'−','*':'×','/':'÷'}[calcOp] + ' ' + calcCurrent + ' =';
+      calcCurrent = String(Math.round(result * 1e10) / 1e10);
+      calcOp = null; calcPrev = null; calcJustEvaled = true;
+    }
+  } else if (key === '.') {
+    if (calcJustEvaled) { calcCurrent = '0'; calcJustEvaled = false; }
+    if (!calcCurrent.includes('.')) calcCurrent += '.';
+  } else {
+    if (calcCurrent === '0' || calcJustEvaled) { calcCurrent = key; calcJustEvaled = false; }
+    else { if (calcCurrent.length < 12) calcCurrent += key; }
+  }
+  disp.textContent = calcCurrent;
+  expr.textContent = calcExpr;
+}
+function doCalc(a, b, op) {
+  if (op === '+') return a + b;
+  if (op === '-') return a - b;
+  if (op === '*') return a * b;
+  if (op === '/') return b !== 0 ? a / b : 0;
+}
+ 
+// Drag
+const widget = document.getElementById('calc-widget');
+const dragHandle = document.getElementById('calc-drag');
+let isDragging = false, dragStartX, dragStartY, widgetStartX, widgetStartY;
+dragHandle.addEventListener('mousedown', e => {
+  isDragging = true;
+  dragStartX = e.clientX; dragStartY = e.clientY;
+  const rect = widget.getBoundingClientRect();
+  widgetStartX = rect.left; widgetStartY = rect.top;
+  widget.style.right = 'auto';
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', () => { isDragging = false; document.removeEventListener('mousemove', onDrag); }, { once: true });
+});
+function onDrag(e) {
+  if (!isDragging) return;
+  const dx = e.clientX - dragStartX, dy = e.clientY - dragStartY;
+  widget.style.left = (widgetStartX + dx) + 'px';
+  widget.style.top = (widgetStartY + dy) + 'px';
+}
+dragHandle.addEventListener('touchstart', e => {
+  const t = e.touches[0];
+  dragStartX = t.clientX; dragStartY = t.clientY;
+  const rect = widget.getBoundingClientRect();
+  widgetStartX = rect.left; widgetStartY = rect.top;
+  widget.style.right = 'auto';
+}, { passive: true });
+dragHandle.addEventListener('touchmove', e => {
+  const t = e.touches[0];
+  const dx = t.clientX - dragStartX, dy = t.clientY - dragStartY;
+  widget.style.left = (widgetStartX + dx) + 'px';
+  widget.style.top = (widgetStartY + dy) + 'px';
+}, { passive: true });
+ 
+// Init
+calcStickers();
+calcShirts();
+</script>
+</body>
+</html>
+ 
